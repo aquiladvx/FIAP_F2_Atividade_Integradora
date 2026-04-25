@@ -1,0 +1,11 @@
+id,prioridade,combustivel,massa_kg,criticidade,eta_orbita_min,status
+HAB-01,Alta,92,1200,Alta,6,fila
+ENE-01,Alta,99,1500,Alta,12,fila
+AGR-01,Alta,93,1000,Alta,14,fila
+SUP-01,Média,99,9000,Média,13,fila
+COM-01,Média,18,8000,Média,31,fila
+LOG-01,Média,89,11000,Média,1,fila
+ROB-01,Baixa,75,7000,Baixa,9,fila
+NAV-01,Baixa,75,6000,Baixa,2,fila
+REC-01,Baixa,70,7500,Baixa,8,fila
+SEC-01,Baixa,90,4500,Média,17®,fila
