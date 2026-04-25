@@ -93,4 +93,6 @@ def calcula_combustivel_restante(modulo: dict) -> float:
 
     return combustivel_restante
 
-executar_mgpeb(None)
+
+if __name__ == "__main__":
+    executar_mgpeb(None)
