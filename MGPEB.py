@@ -32,7 +32,7 @@ def executar_mgpeb(modulos_inicio):
 
     # Libera pousos para modulos autorizados
     if len(modulos_autorizados) < 1:
-        input("Nenhum módulo autorizado para pouso. Pressione enter para encerrar o sistema...")
+        print("Nenhum módulo autorizado para pouso. Encerrando o sistema.")
         return
     input("Pressione enter para iniciar pousos de módulos liberados...")
 
@@ -42,6 +42,7 @@ def executar_mgpeb(modulos_inicio):
         modulos_pousados.append(modulo)
 
     print(f"Pousamos {len(modulos_pousados)} módulos!")
+    print("=== Sistema MGPEB encerrado ===")
 
 def ordena_por_eta(lista: list) -> list:
     return bubble_sort_por_parametro(lista, "eta_orbita_min")
@@ -51,7 +52,6 @@ def ordena_por_combustivel(lista: list) -> list:
 
 def verifica_se_seguro_pousar(modulo: dict) -> bool:
     combustivel_apos_pouso = calcula_combustivel_restante(modulo)
-    print(f"Modulo {modulo["id"]} com combustivel {modulo["combustivel"]} tem {combustivel_apos_pouso} de combustivel após o pouso")
 
     return combustivel_apos_pouso >= limites["combustivel"]
 

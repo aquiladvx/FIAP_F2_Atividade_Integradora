@@ -8,7 +8,6 @@ def main():
     modulos = carregar_dados(arquivo)
 
     print(f"\nCarregando cenário: {arquivo}")
-    print(f"Total de módulos: {len(modulos)}\n")
 
     executar_mgpeb(modulos)
 
