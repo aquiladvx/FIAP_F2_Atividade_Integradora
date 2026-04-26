@@ -1,6 +1,5 @@
 from utils import *
 from constants import limites, constantes_pouso
-import time
 
 CAMINHO_PADRAO_DADOS = "data/data.csv"
 
@@ -37,7 +36,7 @@ def executar_mgpeb(modulos_iniciais: list):
 
         for modulo in modulos_pousados:
             print(f"{modulo['id']}")
-        
+
         print("")
 
     print(f"{len(modulos_alerta)} módulos não foram liberados por falta de combustível:")
