@@ -4,17 +4,18 @@ import time
 
 CAMINHO_PADRAO_DADOS = "data/data.csv"
 
-def executar_mgpeb(modulos_inicio):
+def executar_mgpeb(modulos_iniciais: list):
     print("=== Sistema MGPEB iniciado ===")
 
-    if modulos_inicio is None:
+    # Leitura dos dados dos modulos
+    if modulos_iniciais is None:
         modulos = carregar_dados(CAMINHO_PADRAO_DADOS)
     else:
-        modulos = modulos_inicio
+        modulos = modulos_iniciais
 
     modulos_autorizados = []
-    modulos_pousados = []
     modulos_alerta = []
+    modulos_pousados = []
 
     # Ordena os módulos por prioridade e ETA
     modulos_ordenados_em_espera = ordena_modulos(modulos)
@@ -26,22 +27,24 @@ def executar_mgpeb(modulos_inicio):
         else:
             modulos_alerta.append(modulo)
 
-    print(f"Temos {len(modulos_autorizados)} módulos liberados para pouso e {len(modulos_alerta)} módulos em alerta.")
-    for modulo in modulos_alerta:
-        print(f"Módulo {modulo['id']} bloqueado para pouso.")
-
     # Libera pousos para modulos autorizados
-    if len(modulos_autorizados) < 1:
-        print("Nenhum módulo autorizado para pouso. Encerrando o sistema.")
-        return
-    input("Pressione enter para iniciar pousos de módulos liberados...")
-
     for modulo in modulos_autorizados:
-        print(f"Módulo {modulo['id']} liberado com sucesso! Preparando para pouso.")
         pousa_modulo(modulo)
         modulos_pousados.append(modulo)
 
-    print(f"Pousamos {len(modulos_pousados)} módulos!")
+    if len(modulos_pousados) > 1:
+        print(f"{len(modulos_pousados)} módulos foram pousados com sucesso:")
+
+        for modulo in modulos_pousados:
+            print(f"{modulo['id']}")
+        
+        print("")
+
+    print(f"{len(modulos_alerta)} módulos não foram liberados por falta de combustível:")
+    for modulo in modulos_alerta:
+        print(f"{modulo['id']}")
+    print("")
+
     print("=== Sistema MGPEB encerrado ===")
 
 def ordena_por_eta(lista: list) -> list:
@@ -56,10 +59,8 @@ def verifica_se_seguro_pousar(modulo: dict) -> bool:
     return combustivel_apos_pouso >= limites["combustivel"]
 
 def pousa_modulo(modulo: dict):
-    print(f"Pousando módulo {modulo['id']}...")
-    time.sleep(0.5)
-    print("Módulo pousado com sucesso!")
-    time.sleep(0.5)
+    # Lógica de pouso
+    pass
 
 def ordena_modulos(lista: list) -> list:
     modulos_alta = busca_por_prioridade(lista, "Alta")
@@ -75,6 +76,7 @@ def ordena_modulos(lista: list) -> list:
     resposta = []
 
     for grupo in grupos_prioridade:
+        # Aplicando algoritmo de ordenação para ETA
         ordenados_por_eta = ordena_por_eta(grupo)
         for modulo in ordenados_por_eta:
             resposta.append(modulo)

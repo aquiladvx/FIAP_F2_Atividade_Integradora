@@ -4,10 +4,10 @@ from MGPEB import executar_mgpeb
 
 def main():
     print("=== Simulador MGPEB ===")
-    arquivo = escolher_cenario()
-    modulos = carregar_dados(arquivo)
+    nome_arquivo = escolher_cenario()
+    modulos = carregar_dados(nome_arquivo)
 
-    print(f"\nCarregando cenário: {arquivo}")
+    print(f"\nCarregando cenário: {nome_arquivo}")
 
     executar_mgpeb(modulos)
 
