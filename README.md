@@ -1,84 +1,73 @@
-# 🚀 Sistema de Gerenciamento de Pouso – MGPEB
+# Sistema de Gerenciamento de Pouso - MGPEB
 
-## 📌 Descrição do Projeto
+## Descrição
+Este projeto implementa o protótipo do **MGPEB (Módulo de Gerenciamento de Pouso e Estabilização de Base)** para simular autorizações de pouso de módulos da colônia Aurora Siger.
 
-Este projeto implementa o **MGPEB (Módulo de Gerenciamento de Pouso e Estabilização de Base)**, responsável por analisar se módulos espaciais estão aptos para realizar um **pouso seguro** em uma base simulada.
+O foco desta entrega está no código da Sessão 3 da atividade integradora: estruturas lineares, busca, ordenação e regras booleanas de decisão.
 
-O sistema avalia múltiplos parâmetros operacionais e toma decisões baseadas em regras de segurança, classificando os módulos de acordo com sua condição de pouso.
+## Conceitos aplicados
+- Estruturas lineares: lista, fila e pilha
+- Busca em lista
+- Ordenação com algoritmo clássico (`bubble sort`)
+- Regras booleanas
+- Função aplicada ao consumo de combustível
+- Leitura de dados CSV com `pandas`
 
-O projeto foi desenvolvido como parte da *Atividade Integradora – Fase 2* do curso de Ciência da Computação da FIAP.
+## Estruturas de dados usadas
+- **Lista**: armazenamento base dos módulos carregados do CSV.
+- **Fila (FIFO)**: fila principal de pouso, usada para processar tentativas de autorização em ordem.
+- **Pilha (LIFO)**: histórico de pousos autorizados, permitindo consultar o último módulo pousado.
 
----
+As implementações de `Fila` e `Pilha` estão em `src/utils.py`.
 
-## 🧠 Conceitos Aplicados
+## Dados dos módulos
+Os cenários ficam na pasta `data/`:
+- `data/data_critico.csv`
+- `data/data_positivo.csv`
+- `data/data_aleatorio.csv`
+- `data/data.csv` (padrão)
 
-A solução utiliza conceitos fundamentais de programação:
-
-- Estruturas de dados (listas e dicionários)
-- Ordenação de dados
-- Lógica booleana para tomada de decisão
-- Simulação de cenários
-- Leitura de arquivos CSV
-- Modularização de código
-- Regras de negócio baseadas em limites operacionais
-
----
-
-## 📊 Dados dos Módulos
-
-Os dados dos módulos são carregados a partir de arquivos CSV simulando diferentes cenários de pouso.
-
-Cada módulo contém informações como:
-
+Cada módulo contém os principais atributos:
+- `id`
 - `prioridade`
-- `ETA`
 - `combustivel`
-- `risco`
+- `massa_kg`
+- `criticidade`
+- `eta_orbita_min`
+- `status`
 
-Esses dados são utilizados para determinar a ordem de pouso e a viabilidade da operação.
+## Regras de decisão (booleana)
+Um módulo só é autorizado quando **todas** as condições são verdadeiras:
+- `combustivel_restante >= limites["combustivel"]`
+- `eta_orbita_min <= limites["eta"]`
+- `massa_kg <= limites["massa"]`
 
----
+Os limites são definidos em `src/constants.py`.
 
-## ⚙️ Regras de Validação
+## Fluxo do sistema
+1. Carrega os módulos do cenário escolhido.
+2. Separa por prioridade (`Alta`, `Média`, `Baixa`).
+3. Ordena cada grupo por `eta_orbita_min` com `bubble sort`.
+4. Enfileira os módulos na fila principal.
+5. Processa a fila aplicando a regra booleana de segurança.
+6. Empilha módulos autorizados no histórico de pouso.
+7. Exibe:
+- módulos pousados
+- módulos em alerta
+- último módulo pousado (topo da pilha)
 
-O sistema aplica regras para garantir que o pouso seja seguro.
+## Como executar
+O `main.py` funciona como simulador. Você pode usar cenários específicos para rodar o MGPEB:
 
-### ✔️ Um módulo pode pousar se:
+```bash
+python3 src/main.py
+```
 
-- O combustível restante após o pouso for **maior ou igual a 5 unidades**
-- O nível de risco estiver dentro do aceitável
-- As condições gerais estiverem seguras
 
-### ⚠️ Caso contrário:
+Também é possível fornecer os dados diretamente ao gerenciador: basta colocar o arquivo em `data/data.csv` e executar o `MGPEB.py`.
 
-O módulo é classificado como **ALERTA** e não recebe autorização imediata para pouso.
+Sem ambiente virtual:
 
----
-
-## 🧠 Funcionamento do Sistema
-
-O fluxo do sistema segue as seguintes etapas:
-
-1. Carrega os dados dos módulos a partir de um CSV
-2. Ordena os módulos por:
-   - Prioridade
-   - ETA
-3. Avalia cada módulo com base nas regras de segurança
-4. Classifica os módulos em:
-   - Autorizados
-   - Em alerta
-   - Pousados/processados
-5. Exibe o resultado da simulação
-
----
-
-## 🎮 Simulação de Cenários
-
-O arquivo `main.py` funciona como um **simulador**.
-
-Ele pode ser usado para executar o MGPEB com cenários específicos, permitindo testar diferentes situações de pouso.
-
-Também é possível fornecer os dados diretamente ao gerenciador. Para isso, basta adicionar o arquivo CSV no caminho:
-
-```txt
-data/data.csv
+```bash
+python3 src/MGPEB.py
+```
