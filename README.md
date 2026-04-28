@@ -15,8 +15,8 @@ O foco desta entrega está no código da Sessão 3 da atividade integradora: est
 
 ## Estruturas de dados usadas
 - **Lista**: armazenamento base dos módulos carregados do CSV.
-- **Fila (FIFO)**: fila principal de pouso, usada para processar tentativas de autorização em ordem.
-- **Pilha (LIFO)**: histórico de pousos autorizados, permitindo consultar o último módulo pousado.
+- **[Fila (FIFO)**: fila principal de pouso, usada para processar tentativas de autorização em ordem. (https://www.w3schools.com/python/python_dsa_queues.asp)
+- **Pilha (LIFO)**: histórico de pousos autorizados, permitindo consultar o último módulo pousado. (https://www.w3schools.com/python/python_dsa_stacks.asp)
 
 As implementações de `Fila` e `Pilha` estão em `src/utils.py`.
 
