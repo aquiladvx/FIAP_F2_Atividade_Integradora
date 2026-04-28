@@ -50,7 +50,7 @@ def executar_mgpeb(modulos_iniciais: list):
 
         print("")
 
-    print(f"{len(modulos_alerta)} módulos não foram liberados por falta de combustível:")
+    print(f"{len(modulos_alerta)} módulos não foram liberados por critérios de segurança (combustível, ETA ou massa):")
     for modulo in modulos_alerta:
         print(f"{modulo['id']}")
     print("")
@@ -70,8 +70,11 @@ def ordena_por_combustivel(lista: list) -> list:
 
 def verifica_se_seguro_pousar(modulo: dict) -> bool:
     combustivel_apos_pouso = calcula_combustivel_restante(modulo)
+    combustivel_ok = combustivel_apos_pouso >= limites["combustivel"]
+    eta_ok = modulo["eta_orbita_min"] <= limites["eta"]
+    massa_ok = modulo["massa_kg"] <= limites["massa"]
 
-    return combustivel_apos_pouso >= limites["combustivel"]
+    return combustivel_ok and eta_ok and massa_ok
 
 def pousa_modulo(modulo: dict):
     # Lógica de pouso

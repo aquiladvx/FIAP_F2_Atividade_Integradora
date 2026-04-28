@@ -1,5 +1,7 @@
 limites = {
-    "combustivel": 5
+    "combustivel": 5,
+    "massa": 10000,
+    "eta": 45,
 }
 
 constantes_pouso = {
