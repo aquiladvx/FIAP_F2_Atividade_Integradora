@@ -71,3 +71,6 @@ Sem ambiente virtual:
 ```bash
 python3 src/MGPEB.py
 ```
+
+## Exemplo de execução
+![img.png](res/img.png)
