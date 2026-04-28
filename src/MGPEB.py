@@ -15,12 +15,22 @@ def executar_mgpeb(modulos_iniciais: list):
     modulos_autorizados = []
     modulos_alerta = []
     modulos_pousados = []
+    fila_pouso = Fila()
+    historico_pousos = Pilha()
 
     # Ordena os módulos por prioridade e ETA
     modulos_ordenados_em_espera = ordena_modulos(modulos)
 
-    # Verifica se é seguro pousar
+    # A fila principal controla a ordem de tentativa de pouso.
     for modulo in modulos_ordenados_em_espera:
+        fila_pouso.enfileirar(modulo)
+
+    # Processa os módulos respeitando FIFO.
+    while not fila_pouso.vazia():
+        modulo = fila_pouso.desenfileirar()
+        if modulo is None:
+            break
+
         if verifica_se_seguro_pousar(modulo):
             modulos_autorizados.append(modulo)
         else:
@@ -30,6 +40,7 @@ def executar_mgpeb(modulos_iniciais: list):
     for modulo in modulos_autorizados:
         pousa_modulo(modulo)
         modulos_pousados.append(modulo)
+        historico_pousos.empilhar(modulo)
 
     if len(modulos_pousados) > 1:
         print(f"{len(modulos_pousados)} módulos foram pousados com sucesso:")
@@ -43,6 +54,11 @@ def executar_mgpeb(modulos_iniciais: list):
     for modulo in modulos_alerta:
         print(f"{modulo['id']}")
     print("")
+
+    ultimo_pousado = historico_pousos.topo()
+    if ultimo_pousado is not None:
+        print(f"Último módulo pousado (topo da pilha): {ultimo_pousado['id']}")
+        print("")
 
     print("=== Sistema MGPEB encerrado ===")
 
